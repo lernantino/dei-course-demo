@@ -1,7 +1,9 @@
+import TopBar from '../TopBar';
 import Head from 'next/head';
 import EmailForm from '../EmailForm';
 import Header from '../Header';
 import Footer from '../Footer';
+import { useTheme } from '../../utils/ThemeProvider';
 
 import styles from './layout.module.scss';
 
@@ -12,6 +14,9 @@ const Layout = ({
   children,
   ...props
 }) => {
+
+  const { theme } = useTheme();
+
   return (
     <>
       <Head>
@@ -19,7 +24,14 @@ const Layout = ({
         <meta charSet='utf-8' />
         <title>{pageTitle}</title>
       </Head>
-      <div className={styles['page__layout']}>
+      <div
+        className={`${styles['page__layout']} ${
+          theme === 'DEFAULT'
+            ? styles['page__layout--default']
+            : styles['page__layout--dark']
+        }`}
+      >
+        <TopBar />
         <Header />
         <main className={styles['page__main-content']}>
           {children}

@@ -12,8 +12,12 @@ const ImageWrapper = (props) => {
         objectFit='cover'
         objectPosition='center'
       />
-      <div
-        className={styles['image__media-alt']} 
+         <div
+        className={`${styles['image__media-alt']} ${
+          theme === 'DEFAULT'
+            ? styles['image__media-alt--default']
+            : styles['image__media-alt--dark']
+        }`}
       >
         <p>{props.alt}</p>
       </div>
