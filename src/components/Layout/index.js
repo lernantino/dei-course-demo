@@ -4,6 +4,8 @@ import EmailForm from '../EmailForm';
 import Header from '../Header';
 import Footer from '../Footer';
 import { useTheme } from '../../utils/ThemeProvider';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 import styles from './layout.module.scss';
 
@@ -14,8 +16,14 @@ const Layout = ({
   children,
   ...props
 }) => {
-
+  const { locale, locales, defaultLocale, pathname } = useRouter();
   const { theme } = useTheme();
+
+  useEffect(() => {
+    if (window) {
+      window.document.documentElement.lang = locale;
+    }
+  }, [locale]);
 
   return (
     <>
@@ -33,7 +41,7 @@ const Layout = ({
       >
         <TopBar />
         <Header />
-        <main className={styles['page__main-content']}>
+        <main className={styles['page__main-content']} dir="auto">
           {children}
           <EmailForm />
         </main>

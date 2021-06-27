@@ -1,9 +1,22 @@
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../utils/ThemeProvider';
-
 import styles from './emailForm.module.scss';
 
 const EmailForm = () => {
   const { theme } = useTheme();
+  const { locale } = useRouter();
+  const { t, i18n, ready } = useTranslation(['email'], { useSuspense: false });
+
+  useEffect(() => {
+    i18n.changeLanguage(locale);
+  }, [locale]);
+
+  if (!ready) {
+    return <h1>Loading...</h1>;
+  };
+
   return (
     <section
       className={`${styles['emailForm']} ${
@@ -12,14 +25,14 @@ const EmailForm = () => {
           : styles['emailForm--dark']
       }`}
     >
-      <h3>Sign up for notifications</h3>
-      <p>Get updates on the latest content and resources for this course.</p>
+      <h3>{t('email:header')}</h3>
+      <p>{t('email:text')}</p>
       <form data-netlify='newsletter-signup'>
         <input
-          aria-label='Email address'
+          aria-label={t('email:label')}
           type='email'
           id='emailForm'
-          placeholder='Your email address'
+          placeholder={t('email:placeholder')}
         />
         <button>Submit</button>
       </form>
